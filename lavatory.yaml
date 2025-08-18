@@ -53,3 +53,17 @@ esp32_ble_tracker:
 bluetooth_proxy:
   active: true
 
+# For eq-3 thermostats with firmware >= 148
+esp32_ble:
+  io_capability: keyboard_only # Or keyboard_display, depending on what works
+
+ble_client:
+  - mac_address: 00:1A:22:11:EF:28
+    id: my_eq3_thermostat
+    auto_connect: true
+    on_passkey_request:
+      then:
+        - logger.log: "Passkey requested by eq3 thermostat"
+        - ble_client.passkey_reply:
+            id: my_eq3_thermostat
+            passkey: 2747
